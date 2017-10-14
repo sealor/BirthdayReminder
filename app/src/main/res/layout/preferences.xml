@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="activateService"
+        android:summaryOff="The reminder service is inactive"
+        android:summaryOn="The reminder service is active"
+        android:title="Activate reminder service" />
+
+    <de.ubuntix.android.birthdayreminder.view.preference.SummaryEditTextPreference
+        android:defaultValue="3"
+        android:inputType="number"
+        android:key="daysBeforeReminder"
+        android:summary="You will be informed @value days before"
+        android:title="Days before reminder" />
+
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="hideNotificationAfterConfirmation"
+        android:summaryOff="The notification won&apos;t be hidden after confirmation"
+        android:summaryOn="The notification will be hidden after confirmation"
+        android:title="Hide notification after confirmation" />
+
+    <de.ubuntix.android.birthdayreminder.view.preference.TimePickerPreference
+        android:defaultValue="09:00"
+        android:key="updateTime"
+        android:summary="You will be notified at @value o&apos;clock"
+        android:title="Notification time" />
+
+</PreferenceScreen>

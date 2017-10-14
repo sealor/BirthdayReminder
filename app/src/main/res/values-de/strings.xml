@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="title">%s</string>
+    <string name="knownBirthdays">Bevorstehende Geburtstage</string>
+    <string name="unknownBirthdays">Geburtstage unbekannt</string>
+    <string name="contextMenuTitle">Geburtstag</string>
+    <string name="contextMenu_create">anlegen</string>
+    <string name="contextMenu_edit">bearbeiten</string>
+    <string name="contextMenu_delete">löschen</string>
+    <string name="dialogTitle">Geburtstag</string>
+    <string name="summary_today">wird heute %d Jahre alt</string>
+    <string name="summary_tomorrow">wird morgen %d Jahre alt</string>
+    <string name="summary_other">wird in %1$d Tagen %2$d Jahre alt</string>
+    <string name="notificationText_today">heute: %s</string>
+    <string name="notificationText_tomorrow">morgen: %s</string>
+    <string name="notificationText_other">in %1$d Tagen: %2$s</string>
+
+    <plurals name="notificationTitle">
+        <item quantity="one">%d Geburtstag</item>
+        <item quantity="other">%d Geburtstage</item>
+    </plurals>
+
+    <string name="ok">OK</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="editor_phone">Telefon</string>
+
+</resources>

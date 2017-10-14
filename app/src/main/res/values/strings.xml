@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Birthday Reminder</string>
+    <string name="preferences_name">Birthday Reminder Preferences</string>
+    <string name="title">%s</string>
+    <string name="knownBirthdays">Next birthdays</string>
+    <string name="unknownBirthdays">Birthdays unknown</string>
+    <string name="contextMenuTitle">Date of birth</string>
+    <string name="contextMenu_create">create</string>
+    <string name="contextMenu_edit">edit</string>
+    <string name="contextMenu_delete">delete</string>
+    <string name="dialogTitle">Date of birth</string>
+    <string name="summary_today">turns %d today</string>
+    <string name="summary_tomorrow">turns %d tomorrow</string>
+    <string name="summary_other">turns %2$d in %1$d days</string>
+    <string name="notificationText_today">today: %s</string>
+    <string name="notificationText_tomorrow">tomorrow: %s</string>
+    <string name="notificationText_other">in %1$d days: %2$s</string>
+
+    <plurals name="notificationTitle">
+        <item quantity="one">%d Birthday</item>
+        <item quantity="other">%d Birthdays</item>
+    </plurals>
+
+    <string name="preferences">Settings</string>
+    <string name="quit">Quit service</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="account_icon">account icon</string>
+    <string name="add_date_of_birth">add date of birth</string>
+    <string name="new_birthday">+</string>
+    <string name="editor_phone">Phone</string>
+
+</resources>
