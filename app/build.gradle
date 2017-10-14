@@ -7,6 +7,7 @@ android {
     defaultConfig {
         applicationId "de.ubuntix.android.birthdayreminder"
         minSdkVersion 7
+        targetSdkVersion 16
     }
 
     buildTypes {
