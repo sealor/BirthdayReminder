@@ -1,11 +1,6 @@
 package de.ubuntix.android.birthdayreminder;
 
-import java.text.DateFormatSymbols;
-import java.util.Calendar;
-import java.util.List;
-import java.util.SortedSet;
-import java.util.TreeSet;
-
+import android.annotation.SuppressLint;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +10,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+
+import java.text.DateFormatSymbols;
+import java.util.Calendar;
+import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
 import de.ubuntix.android.birthdayreminder.database.Database;
 import de.ubuntix.android.birthdayreminder.database.Preferences;
 import de.ubuntix.android.birthdayreminder.model.Contact;
@@ -116,6 +118,7 @@ public class BirthdayReminder extends ListActivity {
 	}
 
 	@Override
+	@SuppressLint("ResourceType")
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.layout.menu, menu);
@@ -126,14 +129,14 @@ public class BirthdayReminder extends ListActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle item selection
 		switch (item.getItemId()) {
-		case R.id.preferences:
-			startActivity(new Intent(this, PreferenceWindow.class));
-			return true;
-		case R.id.quit:
-			finish();
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
+			case R.id.preferences:
+				startActivity(new Intent(this, PreferenceWindow.class));
+				return true;
+			case R.id.quit:
+				finish();
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
 		}
 	}
 }
