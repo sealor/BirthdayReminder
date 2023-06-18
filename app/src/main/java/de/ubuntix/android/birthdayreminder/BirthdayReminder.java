@@ -41,7 +41,7 @@ public class BirthdayReminder extends ListActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		getListView().setFastScrollEnabled(true);
+		//getListView().setFastScrollEnabled(true);
 
 		this.db = new Database(getContentResolver());
 
@@ -59,7 +59,7 @@ public class BirthdayReminder extends ListActivity {
 	protected void onResume() {
 		super.onResume();
 
-		updateView();
+		//updateView();
 	}
 
 	private void updateView() {
@@ -128,15 +128,25 @@ public class BirthdayReminder extends ListActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle item selection
-		switch (item.getItemId()) {
-			case R.id.preferences:
-				startActivity(new Intent(this, PreferenceWindow.class));
-				return true;
-			case R.id.quit:
-				finish();
-				return true;
-			default:
-				return super.onOptionsItemSelected(item);
+		int itemId = item.getItemId();
+		if (itemId == R.id.preferences) {
+			startActivity(new Intent(this, PreferenceWindow.class));
+			return true;
+		} else if (itemId == R.id.quit) {
+			finish();
+			return true;
 		}
+		return super.onOptionsItemSelected(item);
+
+//		switch (item.getItemId()) {
+//			case R.id.preferences:
+//				startActivity(new Intent(this, PreferenceWindow.class));
+//				return true;
+//			case R.id.quit:
+//				finish();
+//				return true;
+//			default:
+//				return super.onOptionsItemSelected(item);
+//		}
 	}
 }

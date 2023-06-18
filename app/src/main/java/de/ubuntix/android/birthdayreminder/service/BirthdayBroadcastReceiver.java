@@ -133,8 +133,8 @@ public class BirthdayBroadcastReceiver extends BroadcastReceiver {
 			if (countBirthdays > 1) {
 				notification.number = countBirthdays;
 			}
-			PendingIntent pi = PendingIntent.getActivity(context, 0, intent, Intent.FLAG_ACTIVITY_NEW_TASK);
-			notification.setLatestEventInfo(context, titleText, StringUtils.join(notificationTexts, ", "), pi);
+			PendingIntent pi = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+			//notification.setLatestEventInfo(context, titleText, StringUtils.join(notificationTexts, ", "), pi);
 			notificationManager.notify(0, notification);
 		}
 	}
