@@ -1,13 +1,17 @@
-apply plugin: 'com.android.application'
+plugins {
+    id 'com.android.application'
+}
 
 android {
     compileSdkVersion 33
-    buildToolsVersion '33.0.2'
 
     defaultConfig {
         applicationId "de.ubuntix.android.birthdayreminder"
         minSdkVersion 7
-        targetSdkVersion 33
+        targetSdkVersion 31
+        versionCode 1
+        versionName "2.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -15,6 +19,14 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
+        compileOptions {
+            sourceCompatibility JavaVersion.VERSION_1_8
+            targetCompatibility JavaVersion.VERSION_1_8
+        }
     }
     namespace 'de.ubuntix.android.birthdayreminder'
+}
+
+dependencies {
+
 }
