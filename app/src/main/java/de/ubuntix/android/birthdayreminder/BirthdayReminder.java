@@ -121,22 +121,24 @@ public class BirthdayReminder extends ListActivity {
 	@SuppressLint("ResourceType")
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.layout.menu, menu);
+		inflater.inflate(R.menu.menu, menu);
 		return true;
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle item selection
-		switch (item.getItemId()) {
-			case R.id.preferences:
-				startActivity(new Intent(this, PreferenceWindow.class));
-				return true;
-			case R.id.quit:
-				finish();
-				return true;
-			default:
-				return super.onOptionsItemSelected(item);
+		int itemId = item.getItemId();
+
+		if (itemId == R.id.preferences) {
+			startActivity(new Intent(this, PreferenceWindow.class));
+			return true;
 		}
+		if (itemId == R.id.quit) {
+			finish();
+			return true;
+		}
+
+		return super.onOptionsItemSelected(item);
 	}
 }

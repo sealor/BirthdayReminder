@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 16
-    buildToolsVersion "26.0.2"
+    compileSdkVersion 33
+    namespace 'de.ubuntix.android.birthdayreminder'
 
     defaultConfig {
         applicationId "de.ubuntix.android.birthdayreminder"
-        minSdkVersion 7
-        targetSdkVersion 16
+        minSdkVersion 14
+        targetSdkVersion 33
     }
 
     buildTypes {
@@ -16,4 +16,18 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }
+
+    lint {
+        disable 'Instantiatable'
+    }
+}
+
+allprojects {
+    tasks.withType(JavaCompile) {
+        options.compilerArgs << "-Xlint:deprecation"
+    }
+}
+
+dependencies {
+    implementation 'androidx.preference:preference:1.2.0'
 }
