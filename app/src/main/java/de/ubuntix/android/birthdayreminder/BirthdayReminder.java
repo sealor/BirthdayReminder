@@ -1,8 +1,11 @@
 package de.ubuntix.android.birthdayreminder;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.ListActivity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -10,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.text.DateFormatSymbols;
 import java.util.Calendar;
@@ -34,6 +38,7 @@ public class BirthdayReminder extends ListActivity {
 	// TODO: call/write message on birthday
 	// TODO: hideNotificationPref
 
+	private static final int PERMISSIONS_REQUEST_WRITE_CONTACTS = 1;
 	private final DateFormatSymbols dateSymbols = new DateFormatSymbols();
 
 	private Database db;
@@ -53,13 +58,41 @@ public class BirthdayReminder extends ListActivity {
 		if (prefs.getActivateService()) {
 			BirthdayBroadcastReceiver.restart(getApplicationContext());
 		}
+
+		// request runtime permission
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+			if (!isContactsPermissionGranted()) {
+				requestPermissions(new String[]{Manifest.permission.WRITE_CONTACTS}, PERMISSIONS_REQUEST_WRITE_CONTACTS);
+			}
+		}
+	}
+
+	private boolean isContactsPermissionGranted() {
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+			return true;
+		}
+
+		return checkSelfPermission(Manifest.permission.WRITE_CONTACTS) == PackageManager.PERMISSION_GRANTED;
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
 
-		updateView();
+		if (isContactsPermissionGranted()) {
+			updateView();
+		}
+	}
+
+	@Override
+	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+		if (requestCode == PERMISSIONS_REQUEST_WRITE_CONTACTS) {
+			if (isContactsPermissionGranted()) {
+				updateView();
+			} else {
+				Toast.makeText(this, R.string.no_contacts_permission, Toast.LENGTH_LONG).show();
+			}
+		}
 	}
 
 	private void updateView() {

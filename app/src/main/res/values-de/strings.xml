@@ -24,5 +24,6 @@
     <string name="ok">OK</string>
     <string name="cancel">Abbrechen</string>
     <string name="editor_phone">Telefon</string>
+    <string name="no_contacts_permission">Keine Berechtigung zum Lesen und Ändern von Kontakten</string>
 
 </resources>
