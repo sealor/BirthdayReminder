@@ -33,4 +33,7 @@
     <string name="editor_phone">Phone</string>
     <string name="no_contacts_permission">No permission to read and write contacts</string>
 
+
+    <string name="notificationChannelName">BirthdayReminderNotification</string>
+    <string name="notificationDescription">Notification to show the next birthdays</string>
 </resources>

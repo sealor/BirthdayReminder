@@ -1,5 +1,7 @@
 package de.ubuntix.android.birthdayreminder.service;
 
+import static de.ubuntix.android.birthdayreminder.BirthdayReminder.*;
+
 import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -9,12 +11,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 
+
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
+
 
 import de.ubuntix.android.birthdayreminder.BirthdayReminder;
 import de.ubuntix.android.birthdayreminder.R;
@@ -82,8 +86,10 @@ public class BirthdayBroadcastReceiver extends BroadcastReceiver {
 		Database db = new Database(context.getContentResolver());
 
 		Preferences prefs = Preferences.getInstance(context);
+
 		NotificationManager notificationManager = (NotificationManager) context
 				.getSystemService(Context.NOTIFICATION_SERVICE);
+
 		Resources res = context.getResources();
 
 		List<Contact> contacts = db.getAllContacts();
@@ -117,6 +123,7 @@ public class BirthdayBroadcastReceiver extends BroadcastReceiver {
 		int countBirthdays = 0;
 		for (Integer days : nextBirthdays.keySet()) {
 			List<String> birthdayList = nextBirthdays.get(days);
+			assert birthdayList != null;
 			String names = StringUtils.join(birthdayList, ", ").toString();
 			notificationTexts.add(getBirthdayText(res, days, names));
 			countBirthdays += birthdayList.size();
@@ -133,12 +140,16 @@ public class BirthdayBroadcastReceiver extends BroadcastReceiver {
 			PendingIntent pi = PendingIntent.getActivity(
 					context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
 
-			Notification.Builder builder = new Notification.Builder(context);
+			Notification.Builder builder = null;
+			if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+				builder = new Notification.Builder(context,CHANNEL_ID);
+			}
 
+			assert builder != null;
 			builder.setContentIntent(pi);
 			builder.setSmallIcon(R.drawable.balloons);
 			builder.setTicker(titleText);
-			builder.setContentText(StringUtils.join(notificationTexts, ", "));
+			builder.setContentText(StringUtils.join(notificationTexts,", "));
 
 			if (countBirthdays > 1) {
 				builder.setNumber(countBirthdays);
@@ -147,6 +158,7 @@ public class BirthdayBroadcastReceiver extends BroadcastReceiver {
 			notificationManager.notify(0, notification);
 		}
 	}
+
 
 	private String getBirthdayText(Resources res, int days, String names) {
 		String text;

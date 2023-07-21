@@ -3,10 +3,13 @@ package de.ubuntix.android.birthdayreminder;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.ListActivity;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -43,12 +46,17 @@ public class BirthdayReminder extends ListActivity {
 	private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 1;
 	private final DateFormatSymbols dateSymbols = new DateFormatSymbols();
 
+	public static final String CHANNEL_ID = BirthdayReminder.class.getName();
+
 	private Database db;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		createNotificationChannel();
 		getListView().setFastScrollEnabled(true);
+
+
 
 		this.db = new Database(getContentResolver());
 
@@ -69,6 +77,24 @@ public class BirthdayReminder extends ListActivity {
 		}
 	}
 
+	private void createNotificationChannel() {
+		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+			CharSequence name = getString(R.string.notificationChannelName);
+			String description = getString(R.string.notificationDescription);
+			int importance = NotificationManager.IMPORTANCE_DEFAULT;
+
+			NotificationChannel notificationChannel = new NotificationChannel(
+					CHANNEL_ID,
+					name,
+					importance);
+			notificationChannel.setDescription(description);
+
+			NotificationManager notificationManager = getSystemService(NotificationManager.class);
+			assert notificationManager != null;
+			notificationManager.createNotificationChannel(notificationChannel);
+		}
+	}
+
 	private boolean isContactsPermissionGranted() {
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
 			return true;
@@ -80,7 +106,6 @@ public class BirthdayReminder extends ListActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-
 		if (isContactsPermissionGranted()) {
 			updateView();
 		}
@@ -99,7 +124,9 @@ public class BirthdayReminder extends ListActivity {
 
 	private void updateView() {
 		// create new list adapter
+		Log.d("updateView", "true");
 		MultiListAdapter listAdapter = new MultiListAdapter();
+
 		List<ListAdapter> adapterList = listAdapter.getListAdapters();
 
 		// load birthday and contact information
