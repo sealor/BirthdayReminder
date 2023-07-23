@@ -10,7 +10,14 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Icon;
+import android.os.Build;
+import android.widget.Toast;
 
+
+import androidx.annotation.RequiresApi;
+import androidx.core.content.ContextCompat;
 
 import java.sql.Time;
 import java.util.ArrayList;
@@ -34,6 +41,7 @@ public class BirthdayBroadcastReceiver extends BroadcastReceiver {
 
 	private static final String TIMED = "timed";
 
+	@RequiresApi(api = Build.VERSION_CODES.O)
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		if (intent.getBooleanExtra(TIMED, false)) {
@@ -81,6 +89,7 @@ public class BirthdayBroadcastReceiver extends BroadcastReceiver {
 		start(context);
 	}
 
+	@RequiresApi(api = Build.VERSION_CODES.O)
 	private void notifyBirthdays(Context context) {
 		Calendar today = CalendarUtils.todaysCalendar();
 		Database db = new Database(context.getContentResolver());
@@ -141,21 +150,30 @@ public class BirthdayBroadcastReceiver extends BroadcastReceiver {
 					context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
 
 			Notification.Builder builder = null;
-			if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 				builder = new Notification.Builder(context,CHANNEL_ID);
 			}
 
 			assert builder != null;
 			builder.setContentIntent(pi);
 			builder.setSmallIcon(R.drawable.balloons);
-			builder.setTicker(titleText);
-			builder.setContentText(StringUtils.join(notificationTexts,", "));
-
+			builder.setShowWhen(true);
+			builder.setWhen(System.currentTimeMillis());
+			builder.setContentTitle(titleText);
+			builder.setColorized(true);
+			builder.setColor(res.getColor(R.color.br_blue_notification));
+			builder.setCategory(Notification.CATEGORY_REMINDER);
+			builder.setPriority(Notification.PRIORITY_HIGH);
+			builder.setVisibility(Notification.VISIBILITY_PUBLIC);
+			builder.setStyle(new Notification.BigTextStyle().bigText(
+					StringUtils.join(notificationTexts,"\n")));
 			if (countBirthdays > 1) {
 				builder.setNumber(countBirthdays);
 			}
+			builder.setTicker(String.format(String.valueOf(countBirthdays)));
+
 			Notification notification = builder.getNotification();
-			notificationManager.notify(0, notification);
+			notificationManager.notify(1, notification);
 		}
 	}
 

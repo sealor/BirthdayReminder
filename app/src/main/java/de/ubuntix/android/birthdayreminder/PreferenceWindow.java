@@ -14,10 +14,11 @@ public class PreferenceWindow extends PreferenceActivity implements OnSharedPref
 	public static final String HIDE_NOTIFICATION = "hideNotificationAfterConfirmation";
 	public static final String UPDATE_TIME = "updateTime";
 
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		addPreferencesFromResource(R.layout.preferences);
+		addPreferencesFromResource(R.xml.preferences);
 	}
 
 	@Override

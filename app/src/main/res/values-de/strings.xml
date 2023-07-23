@@ -21,9 +21,18 @@
         <item quantity="other">%d Geburtstage</item>
     </plurals>
 
+    <string name="preferences">Einstellungen</string>
+
+    <string name="quit">Birthday Reminder beenden</string>
+    <string name="activate_reminder_service">Benachrichtigung aktivieren</string>
+
     <string name="ok">OK</string>
     <string name="cancel">Abbrechen</string>
+    <string name="new_birthday">+</string>
     <string name="editor_phone">Telefon</string>
     <string name="no_contacts_permission">Keine Berechtigung zum Lesen und Ändern von Kontakten</string>
+    <string name="daysbefore">Anzahl der Tage vor der Benachrichtigung</string>
+    <string name="hideNotification">Benachrichtigung nach dem öffnen verschwinden lassen</string>
+    <string name="notificationTime">Zeit der Benachrichtigung</string>
 
 </resources>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Birthday Reminder</string>
+    <string name="app_name" translatable="false">Birthday Reminder</string>
     <string name="preferences_name">Birthday Reminder Preferences</string>
     <string name="title">%s</string>
     <string name="knownBirthdays">Next birthdays</string>
@@ -25,6 +25,7 @@
 
     <string name="preferences">Settings</string>
     <string name="quit">Quit service</string>
+    <string name="activate_reminder_service">Activate reminder service</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="account_icon">account icon</string>
@@ -34,6 +35,13 @@
     <string name="no_contacts_permission">No permission to read and write contacts</string>
 
 
-    <string name="notificationChannelName">BirthdayReminderNotification</string>
-    <string name="notificationDescription">Notification to show the next birthdays</string>
+    <string name="notificationChannelName" translatable="false">BirthdayReminderNotification</string>
+    <string name="notificationDescription" translatable="false">Notification to show the next birthdays</string>
+    <string name="daysbefore">Days before reminder</string>
+    <string name="hideNotification">Hide notification after confirmation</string>
+    <string name="notificationTime">Notification time</string>
+    <string name="activate_summaryOff">The reminder service is inactive</string>
+    <string name="activate_summaryOn">The reminder service is active</string>
+    <string name="hideNotification_summaryOff"><![CDATA[The notification won&apos;t be hidden after confirmation]]></string>
+    <string name="hideNotification_summaryOn">The notification will be hidden after confirmation</string>
 </resources>

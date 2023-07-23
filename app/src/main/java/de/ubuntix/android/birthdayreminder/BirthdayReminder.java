@@ -81,7 +81,7 @@ public class BirthdayReminder extends ListActivity {
 		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 			CharSequence name = getString(R.string.notificationChannelName);
 			String description = getString(R.string.notificationDescription);
-			int importance = NotificationManager.IMPORTANCE_DEFAULT;
+			int importance = NotificationManager.IMPORTANCE_HIGH;
 
 			NotificationChannel notificationChannel = new NotificationChannel(
 					CHANNEL_ID,

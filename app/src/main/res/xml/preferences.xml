@@ -6,28 +6,28 @@
     <CheckBoxPreference
         android:defaultValue="true"
         android:key="activateService"
-        android:summaryOff="The reminder service is inactive"
-        android:summaryOn="The reminder service is active"
-        android:title="Activate reminder service" />
+        android:summaryOff="@string/activate_summaryOff"
+        android:summaryOn="@string/activate_summaryOn"
+        android:title="@string/activate_reminder_service" />
 
     <de.ubuntix.android.birthdayreminder.view.preference.SummaryEditTextPreference
         android:defaultValue="3"
         android:inputType="number"
         android:key="daysBeforeReminder"
         android:summary="You will be informed @value days before"
-        android:title="Days before reminder" />
+        android:title="@string/daysbefore" />
 
     <CheckBoxPreference
         android:defaultValue="false"
         android:key="hideNotificationAfterConfirmation"
-        android:summaryOff="The notification won&apos;t be hidden after confirmation"
-        android:summaryOn="The notification will be hidden after confirmation"
-        android:title="Hide notification after confirmation" />
+        android:summaryOff="@string/hideNotification_summaryOff"
+        android:summaryOn="@string/hideNotification_summaryOn"
+        android:title="@string/hideNotification" />
 
     <de.ubuntix.android.birthdayreminder.view.preference.TimePickerPreference
         android:defaultValue="09:00"
         android:key="updateTime"
         android:summary="You will be notified at @value o&apos;clock"
-        android:title="Notification time" />
+        android:title="@string/notificationTime" />
 
 </PreferenceScreen>
