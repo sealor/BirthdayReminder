@@ -161,7 +161,7 @@ public class BirthdayBroadcastReceiver extends BroadcastReceiver {
 			builder.setWhen(System.currentTimeMillis());
 			builder.setContentTitle(titleText);
 			builder.setColorized(true);
-			builder.setColor(res.getColor(R.color.br_blue_notification));
+			builder.setColor(res.getColor(R.color.blue));
 			builder.setCategory(Notification.CATEGORY_REMINDER);
 			builder.setPriority(Notification.PRIORITY_HIGH);
 			builder.setVisibility(Notification.VISIBILITY_PUBLIC);

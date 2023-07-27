@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="preferences_name">Birthday Reminder Einstellungen</string>
+
     <string name="title">%s</string>
     <string name="knownBirthdays">Bevorstehende Geburtstage</string>
     <string name="unknownBirthdays">Geburtstage unbekannt</string>
@@ -28,11 +30,17 @@
 
     <string name="ok">OK</string>
     <string name="cancel">Abbrechen</string>
+    <string name="add_date_of_birth">Geburtstag hinzufügen</string>
+
     <string name="new_birthday">+</string>
     <string name="editor_phone">Telefon</string>
     <string name="no_contacts_permission">Keine Berechtigung zum Lesen und Ändern von Kontakten</string>
-    <string name="daysbefore">Anzahl der Tage vor der Benachrichtigung</string>
-    <string name="hideNotification">Benachrichtigung nach dem öffnen verschwinden lassen</string>
+    <string name="daysbefore">Erinnerung wie viel Tage vorher</string>
+    <string name="hideNotification">Benachrichtigung</string>
     <string name="notificationTime">Zeit der Benachrichtigung</string>
+    <string name="activate_summaryOn">Benachrichtigung ist eingeschaltet</string>
+    <string name="activate_summaryOff">Benachrichtigung ist ausgeschaltet</string>
+    <string name="hideNotification_summaryOff">Die Benachrichtigung wird nicht ausgeblendet</string>
+    <string name="hideNotification_summaryOn">Die Benachrichtigung wird ausgeblendet</string>
 
 </resources>

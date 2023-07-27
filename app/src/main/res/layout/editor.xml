@@ -2,8 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-
-    android:orientation="vertical">
+    android:background="@color/black"
+    android:orientation="vertical"
+    android:gravity="end">
 
     <TextView
         android:id="@+id/editor_name"
@@ -15,6 +16,8 @@
 
     <ListView
         android:id="@+id/editor_list"
+
+        android:background="@color/black"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:scrollbars="vertical" />

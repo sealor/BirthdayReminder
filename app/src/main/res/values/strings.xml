@@ -28,7 +28,7 @@
     <string name="activate_reminder_service">Activate reminder service</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
-    <string name="account_icon">account icon</string>
+    <string name="account_icon" translatable="false">account icon</string>
     <string name="add_date_of_birth">add date of birth</string>
     <string name="new_birthday">+</string>
     <string name="editor_phone">Phone</string>

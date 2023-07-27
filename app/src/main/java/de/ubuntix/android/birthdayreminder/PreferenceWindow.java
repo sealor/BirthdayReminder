@@ -4,6 +4,9 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
+
+import androidx.preference.Preference;
+
 import de.ubuntix.android.birthdayreminder.database.Preferences;
 import de.ubuntix.android.birthdayreminder.service.BirthdayBroadcastReceiver;
 
@@ -19,6 +22,7 @@ public class PreferenceWindow extends PreferenceActivity implements OnSharedPref
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.preferences);
+
 	}
 
 	@Override

@@ -7,6 +7,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -54,7 +55,6 @@ public class BirthdayReminder extends ListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		createNotificationChannel();
-		getListView().setFastScrollEnabled(true);
 
 
 
@@ -124,10 +124,11 @@ public class BirthdayReminder extends ListActivity {
 
 	private void updateView() {
 		// create new list adapter
-		Log.d("updateView", "true");
-		MultiListAdapter listAdapter = new MultiListAdapter();
 
+		MultiListAdapter listAdapter = new MultiListAdapter();
 		List<ListAdapter> adapterList = listAdapter.getListAdapters();
+
+
 
 		// load birthday and contact information
 		List<Contact> contacts = this.db.getAllContacts();
@@ -158,22 +159,28 @@ public class BirthdayReminder extends ListActivity {
 
 				currentBirthContactAdapter = new BirthContactAdapter(this);
 				adapterList.add(new CategoryAdapter(this, monthStrs[currentMonth]));
+
+
 				adapterList.add(currentBirthContactAdapter);
 			}
 
 			currentBirthContactAdapter.add(birthContact);
+
+
 		}
 
 		adapterList.add(new CategoryAdapter(this, getResources().getString(R.string.unknownBirthdays)));
+
 		adapterList.add(new BirthContactAdapter(this, unknownBirthdays));
+
 
 		setListAdapter(listAdapter);
 	}
 
+	@SuppressLint("ResourceAsColor")
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		BirthContact birthContact = (BirthContact) l.getAdapter().getItem(position);
-
 		Intent editorIntent = new Intent(this, BirthdayEditor.class);
 		editorIntent.putExtra(BirthdayEditor.CONTACT_ID, birthContact.getContact().getId());
 		startActivity(editorIntent);
@@ -203,4 +210,5 @@ public class BirthdayReminder extends ListActivity {
 
 		return super.onOptionsItemSelected(item);
 	}
+
 }

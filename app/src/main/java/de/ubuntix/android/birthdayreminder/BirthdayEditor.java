@@ -63,6 +63,9 @@ public class BirthdayEditor extends Activity implements OnItemClickListener {
 		this.name = (TextView) findViewById(R.id.editor_name);
 		this.list = (ListView) findViewById(R.id.editor_list);
 
+		name.setTextColor(getResources().getColor(R.color.white));
+
+
 		// check if contact id is valid
 		this.db = new Database(getContentResolver());
 		int contactId = getIntent().getIntExtra(CONTACT_ID, NO_CONTACT_ID);

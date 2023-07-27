@@ -1,11 +1,16 @@
 package de.ubuntix.android.birthdayreminder.view.adapter;
 
+
+
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import de.ubuntix.android.birthdayreminder.R;
 
 public class CategoryAdapter extends BaseAdapter {
 
@@ -36,6 +41,7 @@ public class CategoryAdapter extends BaseAdapter {
 		return position;
 	}
 
+	@SuppressLint("ResourceAsColor")
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		TextView categoryView;
@@ -44,7 +50,6 @@ public class CategoryAdapter extends BaseAdapter {
 		} else {
 			categoryView = (TextView) convertView;
 		}
-
 		categoryView.setText(this.name);
 		return categoryView;
 	}

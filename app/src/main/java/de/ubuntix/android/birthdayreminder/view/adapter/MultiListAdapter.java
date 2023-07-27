@@ -2,11 +2,14 @@ package de.ubuntix.android.birthdayreminder.view.adapter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.SortedSet;
 
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
+
+import de.ubuntix.android.birthdayreminder.view.helper.BirthContact;
 
 public class MultiListAdapter extends BaseAdapter {
 
@@ -47,6 +50,7 @@ public class MultiListAdapter extends BaseAdapter {
 		int positionOffset = 0;
 		for (ListAdapter listAdapter : this.listAdapters) {
 			if (position - positionOffset < listAdapter.getCount()) {
+
 				return listAdapter.getView(position - positionOffset, convertView, parent);
 			}
 			positionOffset += listAdapter.getCount();
