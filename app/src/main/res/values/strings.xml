@@ -31,5 +31,6 @@
     <string name="add_date_of_birth">add date of birth</string>
     <string name="new_birthday">+</string>
     <string name="editor_phone">Phone</string>
+    <string name="no_contacts_permission">No permission to read and write contacts</string>
 
 </resources>

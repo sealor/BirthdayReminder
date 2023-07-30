@@ -1,12 +1,5 @@
 package de.ubuntix.android.birthdayreminder.service;
 
-import java.sql.Time;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.SortedMap;
-import java.util.TreeMap;
-
 import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -15,6 +8,14 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+
+import java.sql.Time;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.SortedMap;
+import java.util.TreeMap;
+
 import de.ubuntix.android.birthdayreminder.BirthdayReminder;
 import de.ubuntix.android.birthdayreminder.R;
 import de.ubuntix.android.birthdayreminder.database.Database;
@@ -41,7 +42,7 @@ public class BirthdayBroadcastReceiver extends BroadcastReceiver {
 	private static PendingIntent createPendingIntent(Context context) {
 		Intent intent = new Intent(context, BirthdayBroadcastReceiver.class);
 		intent.putExtra(TIMED, true);
-		return PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+		return PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
 	}
 
 	public static void start(Context context) {
@@ -126,15 +127,23 @@ public class BirthdayBroadcastReceiver extends BroadcastReceiver {
 
 		// create new notification
 		if (notificationTexts.size() > 0) {
-			String titleText = String.format(res.getQuantityString(R.plurals.notificationTitle, countBirthdays),
-					countBirthdays);
+			String titleText = String.format(res.getQuantityString(R.plurals.notificationTitle, countBirthdays), countBirthdays);
+
 			Intent intent = new Intent(context, BirthdayReminder.class);
-			Notification notification = new Notification(R.drawable.balloons, titleText, System.currentTimeMillis());
+			PendingIntent pi = PendingIntent.getActivity(
+					context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
+
+			Notification.Builder builder = new Notification.Builder(context);
+
+			builder.setContentIntent(pi);
+			builder.setSmallIcon(R.drawable.balloons);
+			builder.setTicker(titleText);
+			builder.setContentText(StringUtils.join(notificationTexts, ", "));
+
 			if (countBirthdays > 1) {
-				notification.number = countBirthdays;
+				builder.setNumber(countBirthdays);
 			}
-			PendingIntent pi = PendingIntent.getActivity(context, 0, intent, Intent.FLAG_ACTIVITY_NEW_TASK);
-			notification.setLatestEventInfo(context, titleText, StringUtils.join(notificationTexts, ", "), pi);
+			Notification notification = builder.getNotification();
 			notificationManager.notify(0, notification);
 		}
 	}
