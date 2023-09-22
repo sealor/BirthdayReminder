@@ -15,6 +15,8 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
 import java.text.DateFormatSymbols;
 import java.util.Calendar;
 import java.util.List;
@@ -38,7 +40,7 @@ public class BirthdayReminder extends ListActivity {
 	// TODO: call/write message on birthday
 	// TODO: hideNotificationPref
 
-	private static final int PERMISSIONS_REQUEST_WRITE_CONTACTS = 1;
+	private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 1;
 	private final DateFormatSymbols dateSymbols = new DateFormatSymbols();
 
 	private Database db;
@@ -62,7 +64,7 @@ public class BirthdayReminder extends ListActivity {
 		// request runtime permission
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 			if (!isContactsPermissionGranted()) {
-				requestPermissions(new String[]{Manifest.permission.WRITE_CONTACTS}, PERMISSIONS_REQUEST_WRITE_CONTACTS);
+				requestPermissions(new String[]{Manifest.permission.READ_CONTACTS}, PERMISSIONS_REQUEST_READ_CONTACTS);
 			}
 		}
 	}
@@ -72,7 +74,7 @@ public class BirthdayReminder extends ListActivity {
 			return true;
 		}
 
-		return checkSelfPermission(Manifest.permission.WRITE_CONTACTS) == PackageManager.PERMISSION_GRANTED;
+		return checkSelfPermission(Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED;
 	}
 
 	@Override
@@ -85,8 +87,8 @@ public class BirthdayReminder extends ListActivity {
 	}
 
 	@Override
-	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-		if (requestCode == PERMISSIONS_REQUEST_WRITE_CONTACTS) {
+	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+		if (requestCode == PERMISSIONS_REQUEST_READ_CONTACTS) {
 			if (isContactsPermissionGranted()) {
 				updateView();
 			} else {
@@ -105,8 +107,8 @@ public class BirthdayReminder extends ListActivity {
 		List<BirthContact> birthContacts = BirthContactHelper.createBirthContactList(contacts);
 
 		// group all contacts by known and unknown birthday
-		SortedSet<BirthContact> knownBirthdays = new TreeSet<BirthContact>(new BirthContactBirthdayComparator());
-		SortedSet<BirthContact> unknownBirthdays = new TreeSet<BirthContact>(new BirthContactNameComparator());
+		SortedSet<BirthContact> knownBirthdays = new TreeSet<>(new BirthContactBirthdayComparator());
+		SortedSet<BirthContact> unknownBirthdays = new TreeSet<>(new BirthContactNameComparator());
 
 		for (BirthContact birthContact : birthContacts) {
 			DateOfBirth dateOfBirth = birthContact.getDateOfBirth();
