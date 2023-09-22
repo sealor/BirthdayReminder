@@ -1,13 +1,13 @@
 package de.ubuntix.android.birthdayreminder;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
+import android.Manifest;
 import android.accounts.AccountManager;
 import android.accounts.AuthenticatorDescription;
 import android.app.Activity;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -19,6 +19,13 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import de.ubuntix.android.birthdayreminder.database.Database;
 import de.ubuntix.android.birthdayreminder.model.Contact;
 import de.ubuntix.android.birthdayreminder.model.DateOfBirth;
@@ -28,6 +35,9 @@ import de.ubuntix.android.birthdayreminder.view.adapter.AccountDatesOfBirthAdapt
 import de.ubuntix.android.birthdayreminder.view.adapter.MultiListAdapter;
 
 public class BirthdayEditor extends Activity implements OnItemClickListener {
+
+	private static final int PERMISSIONS_REQUEST_WRITE_CONTACTS = 2;
+
 	private static final int CREATE_BIRTHDAY = 0;
 	private static final int EDIT_BIRTHDAY = 1;
 	private static final int DELETE_BIRTHDAY = 2;
@@ -72,8 +82,40 @@ public class BirthdayEditor extends Activity implements OnItemClickListener {
 		this.list.setOnItemClickListener(this);
 		this.list.setOnCreateContextMenuListener(this);
 
-		// create the GUI
-		updateView();
+		// request runtime permission
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+			if (!isContactsPermissionGranted()) {
+				requestPermissions(new String[]{Manifest.permission.WRITE_CONTACTS}, PERMISSIONS_REQUEST_WRITE_CONTACTS);
+			}
+		}
+	}
+
+	private boolean isContactsPermissionGranted() {
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+			return true;
+		}
+
+		return checkSelfPermission(Manifest.permission.WRITE_CONTACTS) == PackageManager.PERMISSION_GRANTED;
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+
+		if (isContactsPermissionGranted()) {
+			updateView();
+		}
+	}
+
+	@Override
+	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+		if (requestCode == PERMISSIONS_REQUEST_WRITE_CONTACTS) {
+			if (isContactsPermissionGranted()) {
+				updateView();
+			} else {
+				Toast.makeText(this, R.string.no_contacts_permission, Toast.LENGTH_LONG).show();
+			}
+		}
 	}
 
 	private void updateView() {
@@ -91,7 +133,7 @@ public class BirthdayEditor extends Activity implements OnItemClickListener {
 
 				accountIcon = accountRes.getDrawable(authDesc.iconId);
 				accountType = accountRes.getString(authDesc.labelId);
-			} catch (Exception e) {
+			} catch (Exception ignored) {
 			}
 
 			AccountDatesOfBirthAdapter accountAdapter = new AccountDatesOfBirthAdapter(this, new NewDateOfBirthAction(
