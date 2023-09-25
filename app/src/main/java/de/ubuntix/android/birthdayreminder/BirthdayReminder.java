@@ -3,10 +3,14 @@ package de.ubuntix.android.birthdayreminder;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.ListActivity;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -43,12 +47,16 @@ public class BirthdayReminder extends ListActivity {
 	private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 1;
 	private final DateFormatSymbols dateSymbols = new DateFormatSymbols();
 
+	public static final String CHANNEL_ID = BirthdayReminder.class.getName();
+
 	private Database db;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		getListView().setFastScrollEnabled(true);
+		createNotificationChannel();
+
+
 
 		this.db = new Database(getContentResolver());
 
@@ -69,6 +77,24 @@ public class BirthdayReminder extends ListActivity {
 		}
 	}
 
+	private void createNotificationChannel() {
+		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+			CharSequence name = getString(R.string.notificationChannelName);
+			String description = getString(R.string.notificationDescription);
+			int importance = NotificationManager.IMPORTANCE_HIGH;
+
+			NotificationChannel notificationChannel = new NotificationChannel(
+					CHANNEL_ID,
+					name,
+					importance);
+			notificationChannel.setDescription(description);
+
+			NotificationManager notificationManager = getSystemService(NotificationManager.class);
+			assert notificationManager != null;
+			notificationManager.createNotificationChannel(notificationChannel);
+		}
+	}
+
 	private boolean isContactsPermissionGranted() {
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
 			return true;
@@ -80,7 +106,6 @@ public class BirthdayReminder extends ListActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-
 		if (isContactsPermissionGranted()) {
 			updateView();
 		}
@@ -99,8 +124,11 @@ public class BirthdayReminder extends ListActivity {
 
 	private void updateView() {
 		// create new list adapter
+
 		MultiListAdapter listAdapter = new MultiListAdapter();
 		List<ListAdapter> adapterList = listAdapter.getListAdapters();
+
+
 
 		// load birthday and contact information
 		List<Contact> contacts = this.db.getAllContacts();
@@ -131,22 +159,28 @@ public class BirthdayReminder extends ListActivity {
 
 				currentBirthContactAdapter = new BirthContactAdapter(this);
 				adapterList.add(new CategoryAdapter(this, monthStrs[currentMonth]));
+
+
 				adapterList.add(currentBirthContactAdapter);
 			}
 
 			currentBirthContactAdapter.add(birthContact);
+
+
 		}
 
 		adapterList.add(new CategoryAdapter(this, getResources().getString(R.string.unknownBirthdays)));
+
 		adapterList.add(new BirthContactAdapter(this, unknownBirthdays));
+
 
 		setListAdapter(listAdapter);
 	}
 
+	@SuppressLint("ResourceAsColor")
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		BirthContact birthContact = (BirthContact) l.getAdapter().getItem(position);
-
 		Intent editorIntent = new Intent(this, BirthdayEditor.class);
 		editorIntent.putExtra(BirthdayEditor.CONTACT_ID, birthContact.getContact().getId());
 		startActivity(editorIntent);
@@ -176,4 +210,5 @@ public class BirthdayReminder extends ListActivity {
 
 		return super.onOptionsItemSelected(item);
 	}
+
 }

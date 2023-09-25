@@ -1,5 +1,7 @@
 package de.ubuntix.android.birthdayreminder.service;
 
+import static de.ubuntix.android.birthdayreminder.BirthdayReminder.*;
+
 import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -8,6 +10,14 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Icon;
+import android.os.Build;
+import android.widget.Toast;
+
+
+import androidx.annotation.RequiresApi;
+import androidx.core.content.ContextCompat;
 
 import java.sql.Time;
 import java.util.ArrayList;
@@ -15,6 +25,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
+
 
 import de.ubuntix.android.birthdayreminder.BirthdayReminder;
 import de.ubuntix.android.birthdayreminder.R;
@@ -30,6 +41,7 @@ public class BirthdayBroadcastReceiver extends BroadcastReceiver {
 
 	private static final String TIMED = "timed";
 
+	@RequiresApi(api = Build.VERSION_CODES.O)
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		if (intent.getBooleanExtra(TIMED, false)) {
@@ -77,13 +89,16 @@ public class BirthdayBroadcastReceiver extends BroadcastReceiver {
 		start(context);
 	}
 
+	@RequiresApi(api = Build.VERSION_CODES.O)
 	private void notifyBirthdays(Context context) {
 		Calendar today = CalendarUtils.todaysCalendar();
 		Database db = new Database(context.getContentResolver());
 
 		Preferences prefs = Preferences.getInstance(context);
+
 		NotificationManager notificationManager = (NotificationManager) context
 				.getSystemService(Context.NOTIFICATION_SERVICE);
+
 		Resources res = context.getResources();
 
 		List<Contact> contacts = db.getAllContacts();
@@ -117,6 +132,7 @@ public class BirthdayBroadcastReceiver extends BroadcastReceiver {
 		int countBirthdays = 0;
 		for (Integer days : nextBirthdays.keySet()) {
 			List<String> birthdayList = nextBirthdays.get(days);
+			assert birthdayList != null;
 			String names = StringUtils.join(birthdayList, ", ").toString();
 			notificationTexts.add(getBirthdayText(res, days, names));
 			countBirthdays += birthdayList.size();
@@ -133,20 +149,34 @@ public class BirthdayBroadcastReceiver extends BroadcastReceiver {
 			PendingIntent pi = PendingIntent.getActivity(
 					context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
 
-			Notification.Builder builder = new Notification.Builder(context);
+			Notification.Builder builder = null;
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+				builder = new Notification.Builder(context,CHANNEL_ID);
+			}
 
+			assert builder != null;
 			builder.setContentIntent(pi);
 			builder.setSmallIcon(R.drawable.balloons);
-			builder.setTicker(titleText);
-			builder.setContentText(StringUtils.join(notificationTexts, ", "));
-
+			builder.setShowWhen(true);
+			builder.setWhen(System.currentTimeMillis());
+			builder.setContentTitle(titleText);
+			builder.setColorized(true);
+			builder.setColor(res.getColor(R.color.blue));
+			builder.setCategory(Notification.CATEGORY_REMINDER);
+			builder.setPriority(Notification.PRIORITY_HIGH);
+			builder.setVisibility(Notification.VISIBILITY_PUBLIC);
+			builder.setStyle(new Notification.BigTextStyle().bigText(
+					StringUtils.join(notificationTexts,"\n")));
 			if (countBirthdays > 1) {
 				builder.setNumber(countBirthdays);
 			}
+			builder.setTicker(String.format(String.valueOf(countBirthdays)));
+
 			Notification notification = builder.getNotification();
-			notificationManager.notify(0, notification);
+			notificationManager.notify(1, notification);
 		}
 	}
+
 
 	private String getBirthdayText(Resources res, int days, String names) {
 		String text;

@@ -4,6 +4,9 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
+
+import androidx.preference.Preference;
+
 import de.ubuntix.android.birthdayreminder.database.Preferences;
 import de.ubuntix.android.birthdayreminder.service.BirthdayBroadcastReceiver;
 
@@ -14,10 +17,12 @@ public class PreferenceWindow extends PreferenceActivity implements OnSharedPref
 	public static final String HIDE_NOTIFICATION = "hideNotificationAfterConfirmation";
 	public static final String UPDATE_TIME = "updateTime";
 
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		addPreferencesFromResource(R.layout.preferences);
+		addPreferencesFromResource(R.xml.preferences);
+
 	}
 
 	@Override
